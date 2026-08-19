@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Farm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +22,10 @@ public class User {
 
     private String name;
 
-    private String email;
+    private double totalArea;
 
-    private String password;
+    //Vai ter que virar Enum dps
+    private String status;
 
-    private Boolean enabled;
 
 }
