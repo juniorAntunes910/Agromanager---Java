@@ -1,0 +1,12 @@
+package com.junior.AgroManager.enums;
+
+public enum EmailType {
+    ACCOUNT_VERIFICATION,
+    PASSWORD_RESET,
+    STOCK_ALERT,
+    APPLICATION_REMINDER,
+    RECOMMENDATION,
+    HARVEST_REMINDER,
+    FINANCIAL_ALERT,
+    SYSTEM_NOTIFICATION
+}
