@@ -1,9 +1,9 @@
 package com.junior.AgroManager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.junior.AgroManager.enums.ApplicationMethod;
+import com.junior.AgroManager.enums.ApplicationStatus;
+import com.junior.AgroManager.enums.ApplicationType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,9 +22,14 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //Enum dps
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private ApplicationType type;
 
+    @Enumerated(EnumType.STRING)
+    private ApplicationMethod method;
+
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus status;
 
     private double dosage;
 
@@ -32,6 +37,15 @@ public class Application {
 
     private LocalDate date;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "season_id", nullable = false)
+    private Season season;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recommendation_id")
+    private Recommendation recommendation;
 }

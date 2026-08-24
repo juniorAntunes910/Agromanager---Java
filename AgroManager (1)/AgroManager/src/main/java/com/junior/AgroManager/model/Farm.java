@@ -1,13 +1,14 @@
 package com.junior.AgroManager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.junior.AgroManager.enums.FarmStatus;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,8 +25,21 @@ public class Farm {
 
     private double totalArea;
 
-    //Vai ter que virar Enum dps
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private FarmStatus status;
 
+    @OneToMany(mappedBy = "farm")
+    private List<Field> fields = new ArrayList<>();
 
+    @OneToMany(mappedBy = "farm")
+    private List<Product> products = new ArrayList<>();
+
+    @OneToMany(mappedBy = "farm")
+    private List<Expense> expenses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "farm")
+    private List<Revenue> revenues = new ArrayList<>();
+
+    @OneToMany(mappedBy = "farm")
+    private List<FarmMember> members = new ArrayList<>();
 }

@@ -1,9 +1,8 @@
 package com.junior.AgroManager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.junior.AgroManager.enums.NotificationCategory;
+import com.junior.AgroManager.enums.NotificationType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +25,17 @@ public class Notification {
 
     private String message;
 
+    @Enumerated(EnumType.STRING)
+    private NotificationType type;
+
+    @Enumerated(EnumType.STRING)
+    private NotificationCategory category;
+
     private boolean read;
 
     private LocalDateTime createAt;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }
