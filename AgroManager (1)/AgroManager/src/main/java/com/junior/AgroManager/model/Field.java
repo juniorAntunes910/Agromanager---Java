@@ -1,13 +1,15 @@
 package com.junior.AgroManager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.junior.AgroManager.enums.FieldStatus;
+import com.junior.AgroManager.enums.SoilType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,9 +25,18 @@ public class Field {
     private String name;
 
     private double area;
-    //Enum dps
-    private String soilType;
-    //Enum dps
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private SoilType soilType;
+
+    @Enumerated(EnumType.STRING)
+    private FieldStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "farm_id", nullable = false)
+    private Farm farm;
+
+    @OneToMany(mappedBy = "field")
+    private List<Season> seasons = new ArrayList<>();
 
 }

@@ -1,16 +1,16 @@
 package com.junior.AgroManager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.junior.AgroManager.enums.RecommendationStatus;
+import com.junior.AgroManager.enums.RecommendationType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,19 +23,30 @@ public class Recommendation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //Enum dps
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private RecommendationType type;
 
-    private LocalDate platingDate;
+    private LocalDate plantingDate;
 
     private LocalDate expectedHarvestDate;
 
     private double dosage;
 
-    //Enum dps
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private RecommendationStatus status;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "season_id", nullable = false)
+    private Season season;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "created_by_user_id", nullable = false)
+    private User createdBy;
 
+    @OneToMany(mappedBy = "recommendation")
+    private List<Application> applications = new ArrayList<>();
 }

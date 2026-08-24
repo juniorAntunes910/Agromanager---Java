@@ -1,9 +1,7 @@
 package com.junior.AgroManager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.junior.AgroManager.enums.AuditAction;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,12 +20,16 @@ public class AuditLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String action;
+    @Enumerated(EnumType.STRING)
+    private AuditAction action;
 
     private String entity;
 
     private Long entityId;
 
     private LocalDateTime createAt;
-    //dev
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

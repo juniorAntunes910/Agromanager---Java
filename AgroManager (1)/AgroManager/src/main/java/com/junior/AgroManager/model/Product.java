@@ -1,13 +1,15 @@
 package com.junior.AgroManager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.junior.AgroManager.enums.ProductCategory;
+import com.junior.AgroManager.enums.UnitOfMeasure;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,13 +24,27 @@ public class Product {
 
     private String name;
 
-    //Enum dps
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private ProductCategory category;
 
 
-    private int unit;
+    @Enumerated(EnumType.STRING)
+    private UnitOfMeasure unit;
 
     private int minimumStock;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "farm_id", nullable = false)
+    private Farm farm;
+
+    @OneToMany(mappedBy = "product")
+    private List<StockMovement> stockMovements = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    private List<Application> applications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    private List<Recommendation> recommendations = new ArrayList<>();
 
 
 }
